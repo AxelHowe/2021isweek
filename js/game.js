@@ -265,7 +265,7 @@ var startCard = function () {
         var newCard = card.cloneNode(true);
         newCard.className = "card";
         newCard.fromtop = 15 + window.innerHeight / 4 + window.innerHeight / 4 * Math.floor(i / 4);
-        newCard.fromleft = 15 + window.innerWidth / 4 * (i % 4);
+        newCard.fromleft = 15 + (window.innerWidth - 30) / 4 * (i % 4);
         (function (idx) {
             newCard.addEventListener("click", function () {
                 cardClick(idx);
@@ -285,7 +285,7 @@ var startCard = function () {
             left = 15 + window.innerWidth / 4 + "px";
         }
         newCard.fromtop = 15 + window.innerHeight / 4 + window.innerHeight / 4 * Math.floor(i / 4);
-        newCard.fromleft = 15 + window.innerWidth / 4 * (i % 4);
+        newCard.fromleft = 15 + (window.innerWidth - 30) / 4 * (i % 4);
         (function (idx) {
             newCard.addEventListener("click", function () {
                 cardClick(idx + cards_num);
