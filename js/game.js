@@ -3,16 +3,16 @@
 var CardGame = function (targetId) {
     // private variables
 
-    var cards = []; // 前 12 張是題目卡，後 12 張是答案卡
-    var cards_num = 12;
+    var cards = []; // 前 8 張是題目卡，後 8 張是答案卡
+    var cards_num = 8;
     var is_deal = false;
     var card_value = [];
-    var question = ["1C", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "11C", "12C"]
-    var answer = ["1H", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "11H", "12H"]
+    var question = ["1C", "2C", "3C", "4C", "5C", "6C", "7C", "8C"]
+    var answer = ["1H", "2H", "3H", "4H", "5H", "6H", "7H", "8H"]
 
-    // 圖書館出的題目
-    var library_question = ["1C", "1C", "1C", "1C", "1C", "1C", "1C", "1C", "1C", "1C", "1C", "1C"]
-    var library_answer = ["1H", "1H", "1H", "1H", "1H", "1H", "1H", "1H", "1H", "1H", "1H", "2H",]
+    // 圖書館出的題目 有 6 題
+    var library_question = ["13C_Library", "14C_Library", "15C_Library", "16C_Library", "17C_Library", "18C_Library"]
+    var library_answer = ["13H_Library", "14H_Library", "15H_Library", "16H_Library", "17H_Library", "18H_Library"]
 
 
     var matches_found = 0;
@@ -81,10 +81,6 @@ var CardGame = function (targetId) {
         if (cards[id].clicked) return;
         cards[id].className = "card";
         cards[id].firstChild.src = "./images/" + card_value[id] + ".png";
-        //點擊後放大並旋轉-5度
-        // with (cards[id].style) {
-        //     WebkitTransform = MozTransform = OTransform = msTransform = "scale(1.2) rotate(-5deg)";
-        // }
 
         if (card1 !== false) {
             card2 = id;
@@ -113,14 +109,14 @@ var CardGame = function (targetId) {
                         is_deal = false;
                     }, i * 100);
                     setTimeout(function () {
-                        startCard();
                         alertify.confirm('快至攤位兌換獎品吧！').set({
                             title: '恭喜完成闖關',
                             labels: { ok: '重新開始', cancel: '查看解析' },
                             closable: false,
                             onok: function (event) {
                                 card1 = card2 = false;
-                                card_value = ["1C", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "11C", "12C", "13C", "1C", "2C", "3C", "1H", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "11H", "12H", "13H", "1H", "2H", "3H"];
+                                cards_num = 8;
+                                startCard();
                                 deal();
                             },
                             oncancel: function (event) {
@@ -141,6 +137,8 @@ var CardGame = function (targetId) {
                             moveToPack(card1);
                             moveToPack(card2);
                             card1 = card2 = false;
+                            cards_num = 6;
+                            startCard();
                             deal();
 
                         },
@@ -203,6 +201,7 @@ var CardGame = function (targetId) {
     //發題目牌
     var deal = function () {
         // shuffle and deal cards
+        sort_tmp = []
         if (matches_found == 0)
             sort_tmp = question;
         else
@@ -228,6 +227,7 @@ var CardGame = function (targetId) {
     //發答案牌
     var deal_answer = function () {
         // shuffle and deal cards
+        sort_tmp = []
         if (matches_found == 0)
             sort_tmp = answer;
         else
@@ -253,6 +253,7 @@ var CardGame = function (targetId) {
     // initialise 初始化
     var startCard = function () {
         cards = [];
+        card_value = []
         $('.card').remove();
 
         // template for card
